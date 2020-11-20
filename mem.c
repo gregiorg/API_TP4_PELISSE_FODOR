@@ -24,6 +24,7 @@
 */
 struct allocator_header {
         size_t memory_size;
+        struct fb* first_fb;
 	mem_fit_function_t *fit;
 };
 
@@ -47,13 +48,18 @@ static inline size_t get_system_memory_size() {
 	return get_header()->memory_size;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
 struct fb {
 	size_t size;
 	struct fb* next;
-	/* ... */
 };
 
+struct ob {
+  size_t size;
+};
+
+////////////////////////////////////////////////////////////////////////////////
 
 void mem_init(void* mem, size_t taille)
 {

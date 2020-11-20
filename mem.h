@@ -3,6 +3,7 @@
 #include <stddef.h>
 
 struct fb;
+struct ob;
 
 /* fonctions principales de l'allocateur */
 void mem_init(void* mem, size_t taille);
