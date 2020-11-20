@@ -1,1 +1,73 @@
-<mxfile host="app.diagrams.net" modified="2020-11-20T13:51:00.594Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36" version="13.10.0" etag="C_apaKvtmK1SErfeoMCp" type="github"><diagram id="0cQq4gUdbkcnm2lJjJDK">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2020-11-20T16:02:36.209Z" agent="5.0 (X11)" etag="f8-egCKdFtuewEIrd4Vr" version="13.10.0" type="github">
+  <diagram id="0cQq4gUdbkcnm2lJjJDK" name="Page-1">
+    <mxGraphModel dx="1350" dy="674" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-1" value="&lt;div style=&quot;font-size: 16px&quot; align=&quot;right&quot;&gt;&lt;p&gt;mem&lt;/p&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="182" width="680" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-23" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;align=right;" vertex="1" parent="1">
+          <mxGeometry x="60" y="522" width="230" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-4" value="memory used" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="400" width="230" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-5" value="size" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="480" width="120" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-6" value="struct fb*" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="180" y="480" width="110" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-7" value="Struc ob" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="460" width="230" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-8" value="memory used" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="278" width="230" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-9" value="size" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="358" width="120" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-10" value="struct fb*" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="180" y="358" width="110" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-11" value="Struc ob" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="338" width="230" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-13" value="size" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="240" width="120" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-14" value="struct fb*" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="180" y="240" width="110" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-15" value="Struc fb" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="220" width="230" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-24" value="memory_size" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="550" width="80" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-25" value="fit function" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;direction=west;" vertex="1" parent="1">
+          <mxGeometry x="140" y="550" width="70" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-26" value="&lt;div align=&quot;right&quot;&gt;allocateur header&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="60" y="522" width="230" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-27" value="struct fb* " style="rounded=0;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="210" y="551" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="V_hZlHw9w8OSEdd-2cOp-32" value="" style="curved=1;endArrow=classic;html=1;strokeWidth=2;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="V_hZlHw9w8OSEdd-2cOp-27" target="V_hZlHw9w8OSEdd-2cOp-13">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="570" as="sourcePoint" />
+            <mxPoint x="340" y="527" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="310" y="600" />
+              <mxPoint x="160" y="600" />
+              <mxPoint x="20" y="610" />
+              <mxPoint x="30" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
