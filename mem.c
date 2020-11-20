@@ -63,14 +63,20 @@ struct ob {
 
 void mem_init(void* mem, size_t taille)
 {
-        memory_addr = mem;
-        *(size_t*)memory_addr = taille;
-	/* On vérifie qu'on a bien enregistré les infos et qu'on
-	 * sera capable de les récupérer par la suite
-	 */
+  memory_addr = mem;
+  *(size_t*)memory_addr = taille;
+
 	assert(mem == get_system_memory_addr());
 	assert(taille == get_system_memory_size());
-	/* ... */
+
+  // create the first fb, set it's parametres and place it in the header
+  struct fb* new_fb;
+  new_fb = memory_addr + sizeof(struct struct allocator_header);
+  new_fb->size = taille;
+  new_fb->next = NULL;
+
+  get_header()->first_fb = new_fb;
+
 	mem_fit(&mem_fit_first);
 }
 

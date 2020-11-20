@@ -1,0 +1,6 @@
+.common.o.deps
+.mem.o.deps
+common.o
+mem.o
+memshell
+test_init
