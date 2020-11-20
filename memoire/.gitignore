@@ -1,4 +1,0 @@
-*.o
-.*.o.deps
-/memshell
-/test_init
