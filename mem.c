@@ -200,10 +200,34 @@ struct fb* getPrevious(struct fb* a_pour_previous){
 		
 } 
 
-
-
-
 void mem_free(void* mem) {
+  struct ob* current_ob = mem-sizeof(struct ob); // interpret mem as ob
+
+  // find the last fb before current_ob
+  struct fb* prev_fb = get_header()->first_fb;
+  while ((void*) prev_fb->next < (void*) current_ob) {
+    prev_fb = prev_fb->next;
+  } // prev_fb->next >= current_ob
+
+  struct fb* next_fb = prev_fb->next; // find the first fb after current_ob;
+
+  /* /!\ prev_fb and next_fb can both be null /!\
+     if we're at the begining or the end of the total memory zone
+     however, it shoudn't change the algorithme. it just needs to be detected */
+
+  // these booleean will help us determine the free scenario (cf. free_mem.drawio)
+  int is_previous_fb = prev_fb != NULL && (void*) (prev_fb + prev_fb->size) == (void*) current_ob;
+  int is_next_fb = next_fb != NULL && (void*) (current_ob + current_ob->size) == (void*) next_fb;
+
+  if (is_previous_fb && !is_next_fb) {
+
+  } else if (!is_previous_fb && is_next_fb) {
+
+  } else if (!is_previous_fb && ! is_next_fb) {
+
+  } else/*(is_previous_fb && is_next_fb)*/{
+
+  }
 }
 
 /* Fonction à faire dans un second temps
