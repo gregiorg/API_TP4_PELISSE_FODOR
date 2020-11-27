@@ -80,6 +80,10 @@ void mem_init(void* mem, size_t taille)
 	mem_fit(&mem_fit_first);
 }
 
+void mem_fit(mem_fit_function_t *f) {
+	get_header()->fit = f;
+}
+
 void mem_show(void (*print)(void *, size_t, int)) {
 
 	//il faut déja un pointeur sur le bloc courant, pointe sur adresse header allocateur memoire + taille du header
@@ -114,7 +118,7 @@ void mem_show(void (*print)(void *, size_t, int)) {
 			//on l'interprete en tant que struct ob (un champ: size_t)
 			struct ob *struc_occupe = pt_mem_courant;
 			size_t taille_zone_occuper = struc_occupe->size;
-			
+
 			//affichage d'un bloc OCCUPE
 			print(pt_mem_courant, taille_zone_occuper, 0);
 			//une fois que c'est affiché, il vaut avancer le pointeur courant
@@ -125,15 +129,13 @@ void mem_show(void (*print)(void *, size_t, int)) {
 	}
 }
 
-void mem_fit(mem_fit_function_t *f) {
-	get_header()->fit = f;
-}
+
 
 void *mem_alloc(size_t taille) {
 
 	__attribute__((unused)) /* juste pour que gcc compile ce squelette avec -Werror */
 
-	
+
 
 
 	struct fb *fb=get_header()->fit(/*...*/NULL, /*...*/0);
@@ -141,13 +143,12 @@ void *mem_alloc(size_t taille) {
 	return NULL;
 }
 
-
-void mem_free(void* mem) {
-}
-
-
 struct fb* mem_fit_first(struct fb *list, size_t size) {
 	return NULL;
+}
+
+void mem_free(void* mem) {
+
 }
 
 /* Fonction à faire dans un second temps
