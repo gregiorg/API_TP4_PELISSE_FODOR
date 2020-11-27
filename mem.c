@@ -24,8 +24,8 @@
 */
 struct allocator_header {
         size_t memory_size;
-        struct fb* first_fb;
-	mem_fit_function_t *fit;
+        fb* first_fb;
+	      mem_fit_function_t *fit;
 };
 
 /* La seule variable globale autorisée
@@ -50,14 +50,14 @@ static inline size_t get_system_memory_size() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-struct fb {
+typedef struct fb_t {
 	size_t size;
-	struct fb* next;
-};
+	struct fb_t* next;
+} fb;
 
-struct ob {
+typedef struct ob_t {
   size_t size;
-};
+} ob;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -70,7 +70,7 @@ void mem_init(void* mem, size_t taille)
 	assert(taille == get_system_memory_size());
 
   // create the first fb, set it's parametres and place it in the header
-  struct fb* new_fb;
+  fb* new_fb;
   new_fb = memory_addr + sizeof(struct allocator_header);
   new_fb->size = taille;
   new_fb->next = NULL;
@@ -89,7 +89,7 @@ void mem_show(void (*print)(void *, size_t, int)) {
 	//il faut déja un pointeur sur le bloc courant, pointe sur adresse header allocateur memoire + taille du header
  	void *pt_mem_courant = memory_addr + sizeof(struct allocator_header);
 	 // pointe vers le prochain bloc de libre (fb sur le schema)
-	struct fb* pt_mem_libre = get_header()->first_fb;
+	fb* pt_mem_libre = get_header()->first_fb;
 
 
 	//tant que l'adresse de fin du bloc global est supérieur au pointeur courant(que l'on deplace de bloc mémoire en bloc mémoire)
@@ -116,7 +116,7 @@ void mem_show(void (*print)(void *, size_t, int)) {
 			//si on est ici c'est que le prochain bloc est OCCUPE
 			//recuperation de la struc pour avoir les differentes données
 			//on l'interprete en tant que struct ob (un champ: size_t)
-			struct ob *struc_occupe = pt_mem_courant;
+			ob *struc_occupe = pt_mem_courant;
 			size_t taille_zone_occuper = struc_occupe->size;
 
 			//affichage d'un bloc OCCUPE
@@ -138,25 +138,25 @@ void *mem_alloc(size_t taille) {
 
 
 
-	struct fb *fb=get_header()->fit(/*...*/NULL, /*...*/0);
+	fb* this_fb=get_header()->fit(/*...*/NULL, /*...*/0);
 	/* ... */
 	return NULL;
 }
 
-struct fb* mem_fit_first(struct fb *list, size_t size) {
+fb* mem_fit_first(fb *list, size_t size) {
 	return NULL;
 }
 
 void mem_free(void* mem) {
-  struct ob* current_ob = mem-sizeof(struct ob); // interpret mem as ob
+  ob* current_ob = mem-sizeof(ob); // interpret mem as ob
 
   // find the last fb before current_ob
-  struct fb* prev_fb = get_header()->first_fb;
+  fb* prev_fb = get_header()->first_fb;
   while ((void*) prev_fb->next < (void*) current_ob) {
     prev_fb = prev_fb->next;
   } // prev_fb->next >= current_ob
 
-  struct fb* next_fb = prev_fb->next; // find the first fb after current_ob;
+  fb* next_fb = prev_fb->next; // find the first fb after current_ob;
 
   /* /!\ prev_fb and next_fb can both be null /!\
      if we're at the begining or the end of the total memory zone
@@ -195,10 +195,10 @@ size_t mem_get_size(void *zone) {
 /* Fonctions facultatives
  * autres stratégies d'allocation
  */
-struct fb* mem_fit_best(struct fb *list, size_t size) {
+fb* mem_fit_best(fb *list, size_t size) {
 	return NULL;
 }
 
-struct fb* mem_fit_worst(struct fb *list, size_t size) {
+fb* mem_fit_worst(fb *list, size_t size) {
 	return NULL;
 }
