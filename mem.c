@@ -144,12 +144,46 @@ void *mem_alloc(size_t taille) {
 }
 
 struct fb* mem_fit_first(struct fb *list, size_t size) {
-	//la fonction doit 
+	//la fonction doit renvoyer l'adresse du premier bloc libre >= size  dans les blocs libre present dans l'adresse list 
+
+	//return NULL si le bloc n'existe pas
+   // sinon renvoyer l'adresse de la struct present dans la liste
+
 
 
 
 	return NULL;
 }
+
+struct fb* getPrevious(struct fb* a_pour_previous){
+	//on renvoie l'adresse du fb précédent:
+		struct fb *pt_mem = get_header()->first_fb;
+		//on recupère dans un pointeur la prochaine struc fb
+		//si on est dans le cas ou on on demande le previous du premier fb
+		//on return null
+		if(a_pour_previous == pt_mem){ //pt_mem =  get_header()->first_fb;
+			return NULL;
+		}
+
+		while (pt_mem < memory_addr+get_header()->memory_size) {
+			//tant qu'il y a des adresses de blocs libre
+			if( pt_mem->next == a_pour_previous){
+				//si le pointeur a pour nextfb celui dont on veut le previous
+				return pt_mem;
+				//on return ce pointeur
+			}else{
+				//sinon on avance le pointeur au prochain fb
+				pt_mem = pt_mem->next;
+			}
+		}
+		//en cas de situation d'erreur
+		printf("Situation d'erreur lors du recherche de la struct fb précdente");
+		exit(-1);
+		
+} 
+
+
+
 
 void mem_free(void* mem) {
 }
