@@ -4,6 +4,8 @@
 #include <assert.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 /* Définition de l'alignement recherché
  * Avec gcc, on peut utiliser __BIGGEST_ALIGNMENT__
@@ -132,7 +134,8 @@ void mem_show(void (*print)(void *, size_t, int)) {
 
 
 void *mem_alloc(size_t taille) {
-
+	//size = taille de la zone a allouer
+	//retourne pointeur vers zone allouée et null sinon
 	__attribute__((unused)) /* juste pour que gcc compile ce squelette avec -Werror */
 
 
@@ -144,7 +147,57 @@ void *mem_alloc(size_t taille) {
 }
 
 fb* mem_fit_first(fb *list, size_t size) {
+	//la fonction doit renvoyer l'adresse du premier bloc libre >= size  dans les blocs libre present dans l'adresse list
+	fb *pt_mem = list;
+	//return NULL si le bloc n'existe pas
+   // sinon renvoyer l'adresse de la struct present dans la liste
+   //si la liste est null, on return null
+   if(list == NULL){
+	   return NULL;
+   }
+	while ((void*) pt_mem < memory_addr+get_header()->memory_size) {
+		//boucle pour parcourir tout le gros bloc de départ
+		if(pt_mem->size >= size){
+			//si la taille que pointe le pointeur est suffisament grand on renvoie
+			return pt_mem;
+		}else
+		{
+			pt_mem = pt_mem->next;
+		}
+
+
+	}
+
+
+
 	return NULL;
+}
+
+fb* getPrevious(fb* a_pour_previous){
+	//on renvoie l'adresse du fb précédent:
+		fb *pt_mem = get_header()->first_fb;
+		//on recupère dans un pointeur la prochaine struc fb
+		//si on est dans le cas ou on on demande le previous du premier fb
+		//on return null
+		if(a_pour_previous == pt_mem){ //pt_mem =  get_header()->first_fb;
+			return NULL;
+		}
+
+		while ((void*) pt_mem < memory_addr+get_header()->memory_size) {
+			//tant qu'il y a des adresses de blocs libre
+			if( pt_mem->next == a_pour_previous){
+				//si le pointeur a pour nextfb celui dont on veut le previous
+				return pt_mem;
+				//on return ce pointeur
+			}else{
+				//sinon on avance le pointeur au prochain fb
+				pt_mem = pt_mem->next;
+			}
+		}
+		//en cas de situation d'erreur
+		printf("Situation d'erreur lors du recherche de la struct fb précdente");
+		exit(-1);
+
 }
 
 void mem_free(void* mem) {
