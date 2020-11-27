@@ -71,7 +71,7 @@ void mem_init(void* mem, size_t taille)
 
   // create the first fb, set it's parametres and place it in the header
   struct fb* new_fb;
-  new_fb = memory_addr + sizeof(struct struct allocator_header);
+  new_fb = memory_addr + sizeof(struct allocator_header);
   new_fb->size = taille;
   new_fb->next = NULL;
 
@@ -81,11 +81,47 @@ void mem_init(void* mem, size_t taille)
 }
 
 void mem_show(void (*print)(void *, size_t, int)) {
-	/* ... */
-	while (/* ... */ 0) {
-		/* ... */
-		print(/* ... */NULL, /* ... */0, /* ... */0);
-		/* ... */
+
+	//il faut déja un pointeur sur le bloc courant, pointe sur adresse header allocateur memoire + taille du header
+ 	void *pt_mem_courant = memory_addr + sizeof(struct allocator_header);
+	 // pointe vers le prochain bloc de libre (fb sur le schema)
+	struct fb* pt_mem_libre = get_header()->first_fb;
+
+
+	//tant que l'adresse de fin du bloc global est supérieur au pointeur courant(que l'on deplace de bloc mémoire en bloc mémoire)
+	while (pt_mem_courant < memory_addr+get_header()->memory_size) {
+		//sur quoi pointe pt_mem_courant:
+		//- bloc libre
+		//-bloc utilisé
+		if( pt_mem_libre != NULL && pt_mem_libre == pt_mem_courant){
+			//si c'est le cas, le prochain bloc courant est LIBRE <=> 	pt_mem_courant LIBRE
+			//on recpère la taille
+			size_t taille_zone_libre = pt_mem_libre->size;
+			//affichage d'un bloc LIBRE
+			print(pt_mem_courant, taille_zone_libre, 1);
+			//on deplace les deux pointeurs aux bon endroits:
+			//le pointeur courant vers ke prochain bloc
+			//et le pointeur sur la mémoire libre vers le prochain bloc de mémoire libre
+			pt_mem_courant +=taille_zone_libre;
+			pt_mem_libre = pt_mem_libre->next;
+			//c'est comme cela qu'on avance dans notre programme
+
+
+		}
+		else{
+			//si on est ici c'est que le prochain bloc est OCCUPE
+			//recuperation de la struc pour avoir les differentes données
+			//on l'interprete en tant que struct ob (un champ: size_t)
+			struct ob *struc_occupe = pt_mem_courant;
+			size_t taille_zone_occuper = struc_occupe->size;
+			
+			//affichage d'un bloc OCCUPE
+			print(pt_mem_courant, taille_zone_occuper, 0);
+			//une fois que c'est affiché, il vaut avancer le pointeur courant
+			pt_mem_courant += taille_zone_occuper;
+			//pt_mem_courant pointe donc sur la prochaine zone
+		}
+
 	}
 }
 
@@ -94,8 +130,12 @@ void mem_fit(mem_fit_function_t *f) {
 }
 
 void *mem_alloc(size_t taille) {
-	/* ... */
+
 	__attribute__((unused)) /* juste pour que gcc compile ce squelette avec -Werror */
+
+	
+
+
 	struct fb *fb=get_header()->fit(/*...*/NULL, /*...*/0);
 	/* ... */
 	return NULL;
