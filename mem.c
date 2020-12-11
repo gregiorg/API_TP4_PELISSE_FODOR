@@ -209,7 +209,14 @@ void mem_free(void* mem) {
     prev_fb = prev_fb->next;
   } // prev_fb->next >= current_ob
 
-  fb* next_fb = prev_fb->next; // find the first fb after current_ob;
+  if ((void*) prev_fb > (void*) current_ob) { // if current_ob is the first block
+    prev_fb = NULL;                           // prev_fb shoul be NULL
+  }
+
+  // find the first fb after current_ob. If current_ob is the first block,
+  // this just means taking the first fb
+  fb* next_fb = prev_fb != NULL ? prev_fb->next : get_header()->first_fb;
+
 
   /* /!\ prev_fb and next_fb can both be null /!\
      if we're at the begining or the end of the total memory zone
@@ -236,12 +243,20 @@ void mem_free(void* mem) {
     fb* new_fb = mem; // create the new fb...
 
     new_fb->size = current_ob->size; // ...set it's size...
-    prev_fb->next = new_fb; // ...and link it up
+
+    // prev_fb->next = new_fb; // ...and link it up
+    if (prev_fb != NULL) {
+      prev_fb->next = new_fb;
+
+    } else { // if prev_fb is NULL, current_ob is the first block
+      get_header()->first_fb = new_fb;
+    }
+
     new_fb->next = prev_fb;
 
   } else/*(is_previous_fb && is_next_fb)*/{
-    prev_fb->size = prev_fb->size + current_ob->size + next_fb->size;
-    prev_fb->next = next_fb->next;
+    prev_fb->size = prev_fb->size + current_ob->size + next_fb->size; // massive extesion
+    prev_fb->next = next_fb->next; // set next. eliminates next_fb from chain
   }
 }
 
