@@ -201,7 +201,7 @@ fb* getPrevious(fb* a_pour_previous){
 }
 
 void mem_free(void* mem) {
-  ob* current_ob = mem-sizeof(ob); // interpret mem as ob
+  ob* current_ob = mem-sizeof(ob); // interprete mem as ob
 
   // find the last fb before current_ob
   fb* prev_fb = get_header()->first_fb;
@@ -220,13 +220,28 @@ void mem_free(void* mem) {
   int is_next_fb = next_fb != NULL && (void*) (current_ob + current_ob->size) == (void*) next_fb;
 
   if (is_previous_fb && !is_next_fb) {
+    prev_fb->size += current_ob->size; // extending previous fb
 
   } else if (!is_previous_fb && is_next_fb) {
+    // extracting important info before changing pointers
+    size_t next_fb_size = next_fb->size;
+    size_t current_ob_size = current_ob->size;
+    fb* next_fb_next_fb = next_fb->next;
+
+    next_fb = mem; // repositioning next fb
+    next_fb->size = current_ob_size + next_fb_size; // giving the correct size (extended)
+    next_fb->next = next_fb_next_fb; // giving it back it's next
 
   } else if (!is_previous_fb && ! is_next_fb) {
+    fb* new_fb = mem; // create the new fb...
+
+    new_fb->size = current_ob->size; // ...set it's size...
+    prev_fb->next = new_fb; // ...and link it up
+    new_fb->next = prev_fb;
 
   } else/*(is_previous_fb && is_next_fb)*/{
-
+    prev_fb->size = prev_fb->size + current_ob->size + next_fb->size;
+    prev_fb->next = next_fb->next;
   }
 }
 
