@@ -24,4 +24,7 @@ mem_fit_function_t mem_fit_first;
 mem_fit_function_t mem_fit_worst;
 mem_fit_function_t mem_fit_best;
 
+//fonctions ajoutés par nous-mêmes, nous sommes persuadés qu'elle sont utiles
+fb* getPrevious(fb* a_pour_previous);
+
 #endif
