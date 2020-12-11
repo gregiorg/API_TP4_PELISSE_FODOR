@@ -137,10 +137,12 @@ void mem_show(void (*print)(void *, size_t, int)) {
 void *mem_alloc(size_t taille) {
 	//size = taille de la zone a allouer
 	//retourne pointeur vers zone allouée et null sinon
-	__attribute__((unused)) /* juste pour que gcc compile ce squelette avec -Werror */
+	//__attribute__((unused)) /* juste pour que gcc compile ce squelette avec -Werror */
+	//on doit modifier la taille
+	size_t newS = newSize(taille);
 	//on parcourt tous les espaces vides jusqu'a avoir un espaces assez grand:
 	//la fonction mem_fit_first renvoyer un pointeur sur premier bloc libre
-	fb* pt_zone = mem_fit_first(get_header()->first_fb, taille);
+	fb* pt_zone = mem_fit_first(get_header()->first_fb, newS);
 	//renvoie un pointeur sur la prochiane zone libre
 	//get_header()->first_fb recupère l'adresse de la fb suivante (fb = zone mémoire libre) taille = taille que l'on désire
 	//si on ne peut pas allouer on renvoie null
@@ -149,7 +151,7 @@ void *mem_alloc(size_t taille) {
 	}
 	//sinon plusieurs cas possibles:
 	//--> on alloue et il ne reste aucune place mémoire après
-	else if(pt_zone->size - taille <= sizeof(fb) && (pt_zone - taille >=0)){
+	else if(pt_zone->size - newS <= sizeof(fb) && (pt_zone - newS >=0)){
 		//si le bloc libre - la taille qu'on désire est inférieur à la taille d'une nouvelle zone libre --> toute la mémoire est libre
 
 		fb* pt_to_save = pt_zone->next;
@@ -176,9 +178,9 @@ void *mem_alloc(size_t taille) {
 
 	//--> on alloue et il reste de la place derrière pour créer une zone libre
 	//cas plus complexe
-	else if(pt_zone->size - taille > sizeof(fb)){
+	else if(pt_zone->size - newS > sizeof(fb)){
 			//on récupère l'adresse après la zone qui deviendra occupé
-			fb* new_free = pt_zone+taille;
+			fb* new_free = pt_zone+newS;
 			// on récupère l'adresse de la zone précédente
 			fb* previous = getPrevious(pt_zone);
 
@@ -192,12 +194,12 @@ void *mem_alloc(size_t taille) {
 			//la nouvelle zone de libre (plus petite) pointe sur le next de la zone libre précédente
 			new_free->next = pt_zone->next;
 			//modification de la taille de la zone libre
-			new_free->size = pt_zone->size-taille;
+			new_free->size = pt_zone->size-newS;
 			//on creer le pointeur sur la zone occupé
 			ob* pt_ob;
 			pt_ob = (ob*) pt_zone;
 			//la taille de la zone occupé est celle que l'on veut affecter
-			pt_ob->size = taille;
+			pt_ob->size = newS;
 			//on return le pointeur
 			return(pt_ob);
 	}
@@ -225,6 +227,13 @@ fb* mem_fit_first(fb *list, size_t size) {
 		}else{
 			//sinon on pointe le pointeur suivant
 			pt_mem = pt_mem->next;
+			if(pt_mem == NULL){ //cas ou il n'y a plus
+			//de pointeur après et donc pas de taille 
+			//aproprié disponible
+			return NULL;
+			//on return null pour le signifier
+			}
+			
 		}
 
 
@@ -258,8 +267,23 @@ fb* getPrevious(fb* a_pour_previous){
 		}
 		//en cas de situation d'erreur
 		printf("Situation d'erreur lors du recherche de la struct fb précdente");
-		exit(-1);
+		exit(-1);	
+}
 
+size_t newSize(size_t taille){
+	
+	taille += sizeof(ob);
+	taille = taille<sizeof(fb) ? sizeof(fb) : taille;
+	//si taille < taille de fb alors la taille vaut taille de fb sinon vaut la valeur de taille précédente
+	
+	//ci dessous, code du prof:
+
+	  /* On aligne la taille sur le premier multiple de l'alignement          
+         * défini par notre allocateur pour que ses structures restent alignées
+        */
+        taille=(taille + (ALIGNMENT-1)) & ~(ALIGNMENT - 1);
+		//une fois l'alignement fait, on return la nouvelle taille
+		return taille;
 }
 
 void mem_free(void* mem) {
