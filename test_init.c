@@ -7,6 +7,14 @@
 #define NB_TESTS 10
 
 int main(int argc, char *argv[]) {
+	printf("\n");
+
+	mem_init(get_memory_adr(), get_memory_size());
+
+	void* ptr1 = mem_alloc(get_memory_size()/2);
+
+	mem_free(ptr1);
+
 	fprintf(stderr, "Test réalisant de multiples fois une initialisation suivie d'une alloc max.\n"
 			"Définir DEBUG à la compilation pour avoir une sortie un peu plus verbeuse."
  		"\n");

@@ -79,7 +79,7 @@ void mem_init(void* mem, size_t taille)
 
   get_header()->first_fb = new_fb;
 
-	mem_fit(&mem_fit_first); //modifier cette endroit si on veut laisser 
+	mem_fit(&mem_fit_first); //modifier cette endroit si on veut laisser
 	//la personne choisir quel mem_fit utiliser
 }
 
@@ -142,7 +142,7 @@ void *mem_alloc(size_t taille) {
 	//la fonction mem_fit_first renvoyer un pointeur sur premier bloc libre
 	fb* pt_zone = mem_fit_first(get_header()->first_fb, taille);
 	//renvoie un pointeur sur la prochiane zone libre
-	//get_header()->first_fb recupère l'adresse de la fb suivante (fb = zone mémoire libre) taille = taille que l'on désire 
+	//get_header()->first_fb recupère l'adresse de la fb suivante (fb = zone mémoire libre) taille = taille que l'on désire
 	//si on ne peut pas allouer on renvoie null
 	if(pt_zone == NULL){
 		return pt_zone;
@@ -151,13 +151,18 @@ void *mem_alloc(size_t taille) {
 	//--> on alloue et il ne reste aucune place mémoire après
 	else if(pt_zone->size - taille <= sizeof(fb) && (pt_zone - taille >=0)){
 		//si le bloc libre - la taille qu'on désire est inférieur à la taille d'une nouvelle zone libre --> toute la mémoire est libre
-		
+
 		fb* pt_to_save = pt_zone->next;
 		//tout d'abord, on mets de coté l'adresse du next du bloc fb qui sera transformé en ob
 
 
 		fb* previous = getPrevious(pt_zone);
-		previous->next = pt_to_save;
+    if (previous != NULL) {
+      //on fait pointer le précédent next sur le nouveau free
+      previous->next = pt_to_save;
+    } else {
+      get_header()->first_fb = pt_to_save;
+    }
 		//on modifie le next du précedent pour le faire pointer sur la valeur du next sauvegardé en mémoire
 		ob* pt_ob;
 		pt_ob = (ob*) pt_zone;
@@ -166,18 +171,24 @@ void *mem_alloc(size_t taille) {
 		//on alloue le fb --> transformation en ob
 
 
-		
+
 	}
-	
+
 	//--> on alloue et il reste de la place derrière pour créer une zone libre
 	//cas plus complexe
 	else if(pt_zone->size - taille > sizeof(fb)){
-			//on récupère l'adresse après la zone qui deviendra occupé 
+			//on récupère l'adresse après la zone qui deviendra occupé
 			fb* new_free = pt_zone+taille;
 			// on récupère l'adresse de la zone précédente
 			fb* previous = getPrevious(pt_zone);
-			//on fait pointer le précédent next sur le nouveau free
-			previous->next = new_free;
+
+      if (previous != NULL) {
+        //on fait pointer le précédent next sur le nouveau free
+        previous->next = new_free;
+      } else {
+        get_header()->first_fb = new_free;
+      }
+
 			//la nouvelle zone de libre (plus petite) pointe sur le next de la zone libre précédente
 			new_free->next = pt_zone->next;
 			//modification de la taille de la zone libre
@@ -256,9 +267,9 @@ void mem_free(void* mem) {
 
   // find the last fb before current_ob
   fb* prev_fb = get_header()->first_fb;
-  while ((void*) prev_fb->next < (void*) current_ob) {
+  while (prev_fb->next != NULL && (void*) prev_fb->next < (void*) current_ob) {
     prev_fb = prev_fb->next;
-  } // prev_fb->next >= current_ob
+  } // prev_fb->next == NULL || prev_fb->next >= current_ob
 
   if ((void*) prev_fb > (void*) current_ob) { // if current_ob is the first block
     prev_fb = NULL;                           // prev_fb shoul be NULL
