@@ -74,7 +74,7 @@ void mem_init(void* mem, size_t taille)
   // create the first fb, set it's parametres and place it in the header
   fb* new_fb;
   new_fb = memory_addr + sizeof(struct allocator_header);
-  new_fb->size = taille;
+  new_fb->size = taille - sizeof(struct allocator_header);
   new_fb->next = NULL;
 
   get_header()->first_fb = new_fb;
@@ -169,7 +169,7 @@ void *mem_alloc(size_t taille) {
 		ob* pt_ob;
 		pt_ob = (ob*) pt_zone;
 		pt_ob->size = pt_zone->size;
-		return(pt_ob);
+		return((void*) pt_ob + sizeof(ob));
 		//on alloue le fb --> transformation en ob
 
 
@@ -179,50 +179,34 @@ void *mem_alloc(size_t taille) {
 	//--> on alloue et il reste de la place derrière pour créer une zone libre
 	//cas plus complexe
 	else if(pt_zone->size - newS > sizeof(fb)){
-			//on récupère l'adresse après la zone qui deviendra libre
-			//on compte en octet d'ou la transformation en char
-			
-			//il faut décaller en mémoire de la taille de la
-			//zone occupé
-			//fb* new_free = (fb*) pt_zone+newS;
-			//new_free->next = pt_zone->next;
-			//new_free->size = pt_zone->size-newS;
-			fb* new_free = getPrevious(pt_zone->next) + newS;
-			//fb* new_free = {((pt_zone->size)-newS), pt_zone->next};
-			new_free->next = pt_zone->next;
-			new_free->size = (pt_zone->size)-newS;
+			// on recupere les infos importante
+      void* former_address = (void*) pt_zone;
+      size_t former_size = pt_zone->size;
+      fb* former_next = pt_zone->next;
 
-			//fb* new_free = (fb*) ((char*)pt_zone)+newS;
-			//en attendant qu'on lui trouve une vrai valeur
-			//new_free->next = (fb*) NULL;
+      // on decale la fb courante en modifiant les bonne données
+      pt_zone = (fb*) (((void*) pt_zone) + newS);
+      pt_zone->size = former_size - newS;
+      pt_zone->next = former_next;
+
 			// on récupère l'adresse de la zone précédente
-			fb* previous = getPrevious(pt_zone);
+			fb* previous = getPrevious(former_address);
 
-      		if (previous != NULL) {
-       		 	//on fait pointer le précédent next sur le nouveau 	free qui sera donc décalé de newS octets
-				previous->next = new_free;
-       		 	//previous->next = pt_zone+newS;
-      		} else {
-				get_header()->first_fb = new_free;
-       		 	//get_header()->first_fb = pt_zone+newS;
-      		}
+      if (previous != NULL) {
+      //on fait pointer le précédent next sur le nouveau 	free qui sera donc décalé de newS octets
+			   previous->next = pt_zone;
 
-			//la nouvelle zone de libre (plus petite) pointe sur le next de la zone libre précédente
-			
-			
-			///new_free->next = pt_zone->next;
-			
-			//modification de la taille de la zone libre
-			
-			//new_free->size = pt_zone->size-newS;
-			
+      } else {
+			     get_header()->first_fb = pt_zone;
+      }
+
 			//on creer le pointeur sur la zone occupé
 			ob* pt_ob;
-			pt_ob = (ob*) pt_zone;
+			pt_ob = (ob*) former_address;
 			//la taille de la zone occupé est celle que l'on veut affecter
-			pt_ob->size = (size_t) newS;
+			pt_ob->size = newS;
 			//on return le pointeur
-			return(pt_ob);
+			return((void*) pt_ob + sizeof(ob));
 	}
 	//si aucune zone mémoire n'a pu etre initialisé
 
@@ -249,12 +233,12 @@ fb* mem_fit_first(fb *list, size_t size) {
 			//sinon on pointe le pointeur suivant
 			pt_mem = pt_mem->next;
 			if(pt_mem == NULL){ //cas ou il n'y a plus
-			//de pointeur après et donc pas de taille 
+			//de pointeur après et donc pas de taille
 			//aproprié disponible
 			return NULL;
 			//on return null pour le signifier
 			}
-			
+
 		}
 
 
@@ -288,18 +272,18 @@ fb* getPrevious(fb* a_pour_previous){
 		}
 		//en cas de situation d'erreur
 		printf("Situation d'erreur lors du recherche de la struct fb précdente");
-		exit(-1);	
+		exit(-1);
 }
 
 size_t newSize(size_t taille){
-	
+
 	taille += sizeof(ob);
 	taille = taille<sizeof(fb) ? sizeof(fb) : taille;
 	//si taille < taille de fb alors la taille vaut taille de fb sinon vaut la valeur de taille précédente
-	
+
 	//ci dessous, code du prof:
 
-	  /* On aligne la taille sur le premier multiple de l'alignement          
+	  /* On aligne la taille sur le premier multiple de l'alignement
          * défini par notre allocateur pour que ses structures restent alignées
         */
         taille=(taille + (ALIGNMENT-1)) & ~(ALIGNMENT - 1);
@@ -308,7 +292,7 @@ size_t newSize(size_t taille){
 }
 
 void mem_free(void* mem) {
-  ob* current_ob = mem-sizeof(ob); // interprete mem as ob
+  ob* current_ob = (ob*) (mem-sizeof(ob)); // interprete mem as ob
 
   // find the last fb before current_ob
   fb* prev_fb = get_header()->first_fb;
@@ -330,8 +314,8 @@ void mem_free(void* mem) {
      however, it shoudn't change the algorithme. it just needs to be detected */
 
   // these booleean will help us determine the free scenario (cf. free_mem.drawio)
-  int is_previous_fb = prev_fb != NULL && (void*) (prev_fb + prev_fb->size) == (void*) current_ob;
-  int is_next_fb = next_fb != NULL && (void*) (current_ob + current_ob->size) == (void*) next_fb;
+  int is_previous_fb = prev_fb != NULL && (void*) prev_fb + prev_fb->size == (void*) current_ob;
+  int is_next_fb = next_fb != NULL && (void*) current_ob + current_ob->size == (void*) next_fb;
 
   if (is_previous_fb && !is_next_fb) {
     prev_fb->size += current_ob->size; // extending previous fb
@@ -342,9 +326,16 @@ void mem_free(void* mem) {
     size_t current_ob_size = current_ob->size;
     fb* next_fb_next_fb = next_fb->next;
 
-    next_fb = mem; // repositioning next fb
+    next_fb = (fb*) current_ob; // repositioning next fb
     next_fb->size = current_ob_size + next_fb_size; // giving the correct size (extended)
     next_fb->next = next_fb_next_fb; // giving it back it's next
+
+    // linking next_fb back
+    if (prev_fb != NULL) {
+      prev_fb->next = next_fb;
+    } else {
+      get_header()->first_fb = next_fb;
+    }
 
   } else if (!is_previous_fb && ! is_next_fb) {
     fb* new_fb = mem; // create the new fb...
@@ -359,11 +350,12 @@ void mem_free(void* mem) {
       get_header()->first_fb = new_fb;
     }
 
-    new_fb->next = prev_fb;
+    new_fb->next = next_fb;
 
   } else/*(is_previous_fb && is_next_fb)*/{
     prev_fb->size = prev_fb->size + current_ob->size + next_fb->size; // massive extesion
-    prev_fb->next = next_fb->next; // set next. eliminates next_fb from chain
+
+    prev_fb->next = next_fb != NULL ? next_fb->next : NULL; // set next. eliminates next_fb from chain
   }
 }
 

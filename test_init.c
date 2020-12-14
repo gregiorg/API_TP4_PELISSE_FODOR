@@ -11,7 +11,11 @@ int main(int argc, char *argv[]) {
 
 	mem_init(get_memory_adr(), get_memory_size());
 
-	void* ptr1 = mem_alloc(get_memory_size()/2);
+	size_t max_size = get_memory_size();
+
+	size_t half_size = max_size/2;
+
+	void* ptr1 = mem_alloc(half_size);
 
 	mem_free(ptr1);
 
