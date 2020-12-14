@@ -169,7 +169,7 @@ void *mem_alloc(size_t taille) {
 		ob* pt_ob;
 		pt_ob = (ob*) pt_zone;
 		pt_ob->size = pt_zone->size;
-		return((void*) pt_ob + sizeof(ob));
+		return ((void*) pt_ob + sizeof(ob));
 		//on alloue le fb --> transformation en ob
 
 
@@ -296,9 +296,9 @@ void mem_free(void* mem) {
 
   // find the last fb before current_ob
   fb* prev_fb = get_header()->first_fb;
-  while (prev_fb->next != NULL && (void*) prev_fb->next < (void*) current_ob) {
+  while (prev_fb != NULL && prev_fb->next != NULL && (void*) prev_fb->next < (void*) current_ob) {
     prev_fb = prev_fb->next;
-  } // prev_fb->next == NULL || prev_fb->next >= current_ob
+  } // prev_fb == NULL || prev_fb->next == NULL || prev_fb->next >= current_ob
 
   if ((void*) prev_fb > (void*) current_ob) { // if current_ob is the first block
     prev_fb = NULL;                           // prev_fb shoul be NULL
@@ -338,7 +338,7 @@ void mem_free(void* mem) {
     }
 
   } else if (!is_previous_fb && ! is_next_fb) {
-    fb* new_fb = mem; // create the new fb...
+    fb* new_fb = (fb*) current_ob; // create the new fb...
 
     new_fb->size = current_ob->size; // ...set it's size...
 
