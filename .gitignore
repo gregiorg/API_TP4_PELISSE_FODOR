@@ -4,3 +4,4 @@ common.o
 mem.o
 memshell
 test_init
+test
