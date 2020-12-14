@@ -179,27 +179,48 @@ void *mem_alloc(size_t taille) {
 	//--> on alloue et il reste de la place derrière pour créer une zone libre
 	//cas plus complexe
 	else if(pt_zone->size - newS > sizeof(fb)){
-			//on récupère l'adresse après la zone qui deviendra occupé
-			fb* new_free = pt_zone+newS;
+			//on récupère l'adresse après la zone qui deviendra libre
+			//on compte en octet d'ou la transformation en char
+			
+			//il faut décaller en mémoire de la taille de la
+			//zone occupé
+			//fb* new_free = (fb*) pt_zone+newS;
+			//new_free->next = pt_zone->next;
+			//new_free->size = pt_zone->size-newS;
+			fb* new_free = getPrevious(pt_zone->next) + newS;
+			//fb* new_free = {((pt_zone->size)-newS), pt_zone->next};
+			new_free->next = pt_zone->next;
+			new_free->size = (pt_zone->size)-newS;
+
+			//fb* new_free = (fb*) ((char*)pt_zone)+newS;
+			//en attendant qu'on lui trouve une vrai valeur
+			//new_free->next = (fb*) NULL;
 			// on récupère l'adresse de la zone précédente
 			fb* previous = getPrevious(pt_zone);
 
-      if (previous != NULL) {
-        //on fait pointer le précédent next sur le nouveau free
-        previous->next = new_free;
-      } else {
-        get_header()->first_fb = new_free;
-      }
+      		if (previous != NULL) {
+       		 	//on fait pointer le précédent next sur le nouveau 	free qui sera donc décalé de newS octets
+				previous->next = new_free;
+       		 	//previous->next = pt_zone+newS;
+      		} else {
+				get_header()->first_fb = new_free;
+       		 	//get_header()->first_fb = pt_zone+newS;
+      		}
 
 			//la nouvelle zone de libre (plus petite) pointe sur le next de la zone libre précédente
-			new_free->next = pt_zone->next;
+			
+			
+			///new_free->next = pt_zone->next;
+			
 			//modification de la taille de la zone libre
-			new_free->size = pt_zone->size-newS;
+			
+			//new_free->size = pt_zone->size-newS;
+			
 			//on creer le pointeur sur la zone occupé
 			ob* pt_ob;
 			pt_ob = (ob*) pt_zone;
 			//la taille de la zone occupé est celle que l'on veut affecter
-			pt_ob->size = newS;
+			pt_ob->size = (size_t) newS;
 			//on return le pointeur
 			return(pt_ob);
 	}
