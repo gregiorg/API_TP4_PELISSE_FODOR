@@ -18,15 +18,13 @@ __TP4 Allocateur mémoire__
 - Pour ce TP, nous avons donc travaillé en duo afin de le réaliser. Vous trouverez en plus des éléments obligatoires différents schémas expliquant le fonctionnement de notre allocateur.
 
 - L’allocateur fonctionne avec un système de bloc, libre ou occupé.
- > Un bloc est une zone de mémoire. Le bloc de base est le plus grand, il commence avec un header / un en-tête contenant la taille de la zone mémoire ainsi qu’un pointeur vers la première zone libre. Chaque zone libre est caractérisée par un en-tête précisant la taille de la zone ainsi que d’un pointeur pointant vers la zone libre. 
+ > Un bloc est une zone de mémoire. Le bloc de base est le plus grand, il commence avec un header / un en-tête contenant la taille de la zone mémoire ainsi qu’un pointeur vers la première zone libre. Chaque zone libre est caractérisée par un en-tête précisant la taille de la zone ainsi que d’un pointeur pointant vers la zone libre suivante ou null si elle n'existe pas. Les zones mémoires occupés sont caractérisés par leur taille, qui est la seul donnée de leur en-tête. 
 
 - Nous fournissons un fichier Makefile permetant de lancer nos test avec la commande: `make tests`
 - La commande `make all` permet de compiler tout les fichiers ainsi que la bibliothèque *libmalloc.so*
 - Pour supprimer les fichiers, la commande `make clean` est nécessaire
 
-- La politique d'attribution de mémoire que nous avons utilisé est celle de **mem_fit_first**, en d'autres terme, la zone de mémoire choisi par la fonction pour être alloué est la première des zones qui correspond aux besoins d'allocations. L'allocation se fait alors avec *memAlloc*. [^1] et la libération de la mémoire grâce à *memFree* [^2]. 
-
-
+- La politique d'attribution de mémoire que nous avons utilisé est celle de **mem_fit_first**, en d'autres terme, la zone de mémoire choisi par la fonction pour être alloué est la première des zones qui correspond aux besoins d'allocations. L'allocation se fait alors avec *memAlloc* et la libération de la mémoire grâce à *memFree*. 
 
 
 - En ce qui concerne la fonction *memAlloc*, nous avons choisi de créer les espaces mémoires au début des zones précédement libre. Deux choix dans l'allocation de mémoire sont à prendre en compte: 
@@ -36,15 +34,9 @@ __TP4 Allocateur mémoire__
 Le schéma ci desssous, nous montre comment cela ce passe: 
     ![Schema de memAlloc](./pictures/fonction_memAlloc.jpg)
 
-- En ce qui concerne notre implémentation de la fonction *memFree*, nous avons donc dû nous adapter à la fonction memAlloc et à sa façon d'allouer les blocks de mémoires. 
+- En ce qui concerne notre implémentation de la fonction *memFree*, nous avons donc dû nous adapter à la fonction memAlloc et à sa façon d'allouer les blocks de mémoires. Plusieurs cas apparaissent comme le montre le schéma ci-dessous:
+    ![Schema de memFree](./pictures/free_mem.png)
 
-
-
-[^1]: void *mem_alloc(size_t size);
-    Cette procédure reçoit en paramètre la taille size de la zone à allouer. Elle retourne un pointeur vers la zone allouée et NULL en cas d'allocation impossible.
-
-[^2]: void mem_free(void *zone);
-    Cette procédure reçoit en paramètre l'adresse de la zone occupée. La taille de la zone est récupéré en début de zone. La fonction met à jour la liste des zones libres avec fusion des zones libres contiguës si le cas se présente.
 
 
 
