@@ -24,7 +24,7 @@ __TP4 Allocateur mémoire__
 - La commande `make all` permet de compiler tout les fichiers ainsi que la bibliothèque *libmalloc.so*
 - Pour supprimer les fichiers, la commande `make clean` est nécessaire
 
-- La politique d'attribution de mémoire que nous avons utilisé est celle de **mem_fit_first**, en d'autres terme, la zone de mémoire choisi par la fonction pour être alloué est la première des zones qui correspond aux besoins d'allocations. L'allocation se fait alors avec *memAlloc* [^1] et la libération de la mémoire grâce à *memFree* [^2]. 
+- La politique d'attribution de mémoire que nous avons utilisé est celle de **mem_fit_first**, en d'autres terme, la zone de mémoire choisi par la fonction pour être alloué est la première des zones qui correspond aux besoins d'allocations. L'allocation se fait alors avec *memAlloc*. [^1] et la libération de la mémoire grâce à *memFree* [^2]. 
 
 
 
