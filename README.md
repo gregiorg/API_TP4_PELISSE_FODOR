@@ -8,7 +8,7 @@ Fodor Gergely
 ======================
 Pelisse-Verdoux Cyprien         
 =========================
-__ TP4 Allocateur mémoire __        
+__TP4 Allocateur mémoire__        
 =========================
 
  ## Binôme U
