@@ -4,8 +4,8 @@ Ce package contient :
 - un Makefile vous permettant de compiler tout ces très gros programmes et de tester votre allocateur avec une appli réelle (make test_ls)
 ATTENTION: sans implémentation correcte du début de l'allocateur, test_init boucle indéfiniment.
 
-#Fodor Gergely                  #__TP4 Allocateur mémoire__         #18 décembre 2020
-#Pelisse-Verdoux Cyprien                                           ##Binôme U
+#Fodor Gergely#            #__TP4 Allocateur mémoire__#         #18 décembre 2020#
+#Pelisse-Verdoux Cyprien#                                           ##Binôme U##
 -----------------------------
 
 - Pour ce TP, nous avons donc travaillé en duo afin de le réaliser. Vous trouverez en plus des éléments obligatoires différents schémas expliquant le fonctionnement de notre allocateur.
@@ -23,7 +23,7 @@ ATTENTION: sans implémentation correcte du début de l'allocateur, test_init bo
 
 Le schéma ci desssous, nous montre comment cela ce passe: 
     ![Schema de memAlloc](./fonction_memAlloc.png)
-    
+
 
 
 
