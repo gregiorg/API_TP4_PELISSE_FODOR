@@ -82,10 +82,33 @@ void test4() {
   mem_show(afficher_zone);
 }
 
+void test5() {
+    printf("=======================================\n");
+
+    mem_init(get_memory_adr(), get_memory_size());
+
+    printf("On alloue trois zones\n");
+    void* ptr1 = mem_alloc(64);
+    void* ptr2 = mem_alloc(64);
+    void* ptr3 = mem_alloc(64);
+    mem_show(afficher_zone);
+
+    printf("\nOn les suprime\n");
+    mem_free(ptr1);
+    mem_free(ptr2);
+    mem_free(ptr3);
+    mem_show(afficher_zone);
+
+    printf("\nOn realloue par dessus\n");
+    ptr1 = mem_alloc(64*3);
+    mem_show(afficher_zone);
+}
+
 int main(int argc, char const *argv[]) {
   test1();
   test2();
   test3();
   test4();
+  test5();
   return 0;
 }
