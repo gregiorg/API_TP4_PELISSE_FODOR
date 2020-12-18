@@ -17,7 +17,7 @@ __TP4 Allocateur mémoire__
 
 - Pour ce TP, nous avons donc travaillé en duo afin de le réaliser. Vous trouverez en plus des éléments obligatoires différents schémas expliquant le fonctionnement de notre allocateur.
 
-- Nous fournissons un fichier Makefile permetant de lancer nos test avec la commande: `make tests`
+- Nous fournissons un fichier Makefile permetant de lancer nos test avec la commande: `make`
 - La commande `make all` permet de compiler tout les fichiers ainsi que la bibliothèque *libmalloc.so*.
 - Pour supprimer les fichiers, la commande `make clean` est nécessaire.
 
