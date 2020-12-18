@@ -26,6 +26,7 @@ __TP4 Allocateur mémoire__
 
 
 - Le schéma ci-dessous montre comment est géré la mémoire par notre système. Cette representation bien sûr n'est pas figée, au fur et à mesure de l'allocation et de la libération des zones mémoires, les blocs changent d'adresse de tailles...
+
     ![Schéma de la mémoire](./pictures/utilisation_memoire.jpg)
 
 
@@ -36,10 +37,12 @@ __TP4 Allocateur mémoire__
     - Le cas où après l'allocation de mémoire il n'y a pas la place d'allouer une autre zone libre
     - Le cas où il y a possiblité après l'allocation d'allouer une zone libre
 
-Le schéma ci desssous, nous montre comment cela ce passe: 
+- Le schéma ci desssous, nous montre comment cela ce passe:
+
     ![Schema de memAlloc](./pictures/fonction_memAlloc.jpg)
 
 - En ce qui concerne notre implémentation de la fonction *memFree*, nous avons donc dû nous adapter à la fonction memAlloc et à sa façon d'allouer les blocks de mémoires. Plusieurs cas apparaissent comme le montre le schéma ci-dessous:
+
     ![Schema de memFree](./pictures/free_mem.png)
 
 - Aucune extension n'a pu être codé ce qui implique une certaine faiblesse de notre code dans un usage régulier. En effet, la fonction *memFree* à un comportement non défini si une adresse non valable lui est donnée en paramètre. Il faut noter que c'est le même comportement que la fonction *free* de la bibliothèque *stdlib*. 
