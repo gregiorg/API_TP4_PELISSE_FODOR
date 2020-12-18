@@ -1,9 +1,12 @@
-<mxfile host="app.diagrams.net" modified="2020-12-18T13:17:05.786Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="z9iyjAyARYqcLlls5gVB" version="14.0.5" type="github">
+<mxfile host="app.diagrams.net" modified="2020-12-18T13:35:50.384Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="tbrCFdxdsPk3UcZKlIwV" version="14.0.5" type="github">
   <diagram id="L8QRwStr9e9gq-kaUbE9" name="Page-1">
     <mxGraphModel dx="2310" dy="783" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="DQtquLd4tRrdrJW91mot-42" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry width="870" height="670" as="geometry" />
+        </mxCell>
         <mxCell id="xS3xVYI3d8CCS7Wdqir1-1" value="Cas 1: Il n&#39;y a pas la place après l&#39;allocation pour placer une zone libre et donc potentiellement allouer une structure occupée" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="20" y="200" width="770" height="20" as="geometry" />
         </mxCell>
@@ -351,9 +354,6 @@
               <mxPoint x="660" y="490" />
             </Array>
           </mxGeometry>
-        </mxCell>
-        <mxCell id="DQtquLd4tRrdrJW91mot-42" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry width="870" height="670" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
