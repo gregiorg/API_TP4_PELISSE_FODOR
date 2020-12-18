@@ -31,7 +31,7 @@ __TP4 Allocateur mémoire__
     - Le cas où il y a possiblité après l'allocation d'allouer une zone libre
 
 Le schéma ci desssous, nous montre comment cela ce passe: 
-    ![Schema de memAlloc](./pictures/fonction_memAlloc.png)
+    ![Schema de memAlloc](./pictures/fonction_memAlloc.jpg)
 
 
 
