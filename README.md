@@ -5,7 +5,7 @@ Ce package contient :
 ATTENTION: sans implémentation correcte du début de l'allocateur, test_init boucle indéfiniment.
 
 Fodor Gergely & Pelisse-Verdoux Cyprien  
-======================
+========================
 __TP4 Allocateur mémoire__        
 =========================
 
