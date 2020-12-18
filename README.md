@@ -4,10 +4,8 @@ Ce package contient :
 - un Makefile vous permettant de compiler tout ces très gros programmes et de tester votre allocateur avec une appli réelle (make test_ls)
 ATTENTION: sans implémentation correcte du début de l'allocateur, test_init boucle indéfiniment.
 
-Fodor Gergely 
+Fodor Gergely & Pelisse-Verdoux Cyprien  
 ======================
-Pelisse-Verdoux Cyprien         
-=========================
 __TP4 Allocateur mémoire__        
 =========================
 
@@ -26,6 +24,11 @@ __TP4 Allocateur mémoire__
 - La commande `make all` permet de compiler tout les fichiers ainsi que la bibliothèque *libmalloc.so*
 - Pour supprimer les fichiers, la commande `make clean` est nécessaire
 
+- La politique d'attribution de mémoire que nous avons utilisé est celle de **mem_fit_first**, en d'autres terme, la zone de mémoire choisi par la fonction pour être alloué est la première des zones qui correspond aux besoins d'allocations. L'allocation se fait alors avec *memAlloc*[memAlloc] et la libération de la mémoire grâce à *memFree*[memFree]. 
+
+
+
+
 - En ce qui concerne la fonction *memAlloc*, nous avons choisi de créer les espaces mémoires au début des zones précédement libre. Deux choix dans l'allocation de mémoire sont à prendre en compte: 
     - Le cas où après l'allocation de mémoire il n'y a pas la place d'allouer une autre zone libre
     - Le cas où il y a possiblité après l'allocation d'allouer une zone libre
@@ -33,8 +36,15 @@ __TP4 Allocateur mémoire__
 Le schéma ci desssous, nous montre comment cela ce passe: 
     ![Schema de memAlloc](./pictures/fonction_memAlloc.jpg)
 
+- En ce qui concerne notre implémentation de la fonction *memFree*, nous avons donc dû nous adapter à la fonction memAlloc et à sa façon d'allouer les blocks de mémoires. 
 
 
+
+[memAlloc]: void *mem_alloc(size_t size);
+    Cette procédure reçoit en paramètre la taille size de la zone à allouer. Elle retourne un pointeur vers la zone allouée et NULL en cas d'allocation impossible.
+
+[memFree]: void mem_free(void *zone);
+    Cette procédure reçoit en paramètre l'adresse de la zone occupée. La taille de la zone est récupéré en début de zone. La fonction met à jour la liste des zones libres avec fusion des zones libres contiguës si le cas se présente.
 
 
 
