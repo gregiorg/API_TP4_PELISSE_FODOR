@@ -15,7 +15,7 @@ __TP4 Allocateur mémoire__
  
  ### 18 décembre 2020                                    
 
------------------------------
+---
 
 - Pour ce TP, nous avons donc travaillé en duo afin de le réaliser. Vous trouverez en plus des éléments obligatoires différents schémas expliquant le fonctionnement de notre allocateur.
 
@@ -31,7 +31,7 @@ __TP4 Allocateur mémoire__
     - Le cas où il y a possiblité après l'allocation d'allouer une zone libre
 
 Le schéma ci desssous, nous montre comment cela ce passe: 
-    ![Schema de memAlloc](./fonction_memAlloc.png)
+    ![Schema de memAlloc](./pictures/fonction_memAlloc.png)
 
 
 
