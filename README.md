@@ -8,13 +8,13 @@ Fodor Gergely
 ======================
 Pelisse-Verdoux Cyprien         
 =========================
-__TP4 Allocateur mémoire__        
+__ TP4 Allocateur mémoire __        
 =========================
 
- ##Binôme U
+ ## Binôme U
  
- ###18 décembre 2020                                    
- 
+ ### 18 décembre 2020                                    
+
 -----------------------------
 
 - Pour ce TP, nous avons donc travaillé en duo afin de le réaliser. Vous trouverez en plus des éléments obligatoires différents schémas expliquant le fonctionnement de notre allocateur.
