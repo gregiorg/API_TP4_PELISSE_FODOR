@@ -36,6 +36,7 @@ __TP4 Allocateur mémoire__
 - En ce qui concerne la fonction *memAlloc*, nous avons choisi de créer les espaces mémoires au début des zones précédement libre. Deux choix dans l'allocation de mémoire sont à prendre en compte: 
     - Le cas où après l'allocation de mémoire il n'y a pas la place d'allouer une autre zone libre
     - Le cas où il y a possiblité après l'allocation d'allouer une zone libre
+Dans cette fonction, on utilisera une fonction *get_previous* qui permet de récuperer le bloc libre qui point donc sur le bloc qui est passé en paramètre.
 
 - Le schéma ci desssous, nous montre comment cela ce passe:
 
